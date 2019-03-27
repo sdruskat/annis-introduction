@@ -75,7 +75,7 @@ The corpus list also contains some metadata about the corpora that are available
 Clicking on the information button for a corpus opens a window with more detailed metadata, both for the entire corpus, and for each document in the corpus.
 It also lists all available annotation layers, with an example query for each annotation layer, and a URL link for sharing the example.
 
-By the way, you can not only share these example queries, but also actual queries you have used, and even single results.
+By the way, you can not only share these example queries, but also the corpus in ANNIS, actual queries you have used, and even single results.
 But more about this later.
 
 Next to the information button, you find a button which opens an overview of the documents in the corpus.
@@ -241,6 +241,10 @@ entity!=‎"person‎" &
 This yields some interesting examples of bridging, where for example an organization implies the existence of its parts.
 
 This concludes our introduction to the basic concepts in AQL.
+
+# A short note on best practice
+
+XXX https://www.linguistik.hu-berlin.de/de/institut/professuren/korpuslinguistik/lehre/folien-material/hist-korpora-10-2016 S. 26ff.
 
 Feel free to go through the tutorial and the list of operators, and try them out on any of the available corpora.
 
