@@ -17,7 +17,7 @@ corpus-tools.org also includes tools to convert between different corpus formats
 We are also working on a corpus annotation software that integrates seamlessly with ANNIS.
 If you want to know more about corpus-tools.org, please visit the website at corpus-tools.org.
 
-If you use ANNIS in your work, please cite it! We will provide the relevant reference later on in the video.
+XXX BELOW XXX If you use ANNIS in your work, please cite it! We will provide the relevant reference later on in the video.
 
 ANNIS is a search tool for linguistic corpora, which you can use to search in annotated corpora across all levels, or layers.
 
@@ -160,23 +160,108 @@ For our arbitrary example we create a new analysis and add the meta annotation "
 
 Using the AQL operators, we can construct more complex queries, for example for searching across different layers in a corpus.
 
+We will demonstrate this by using different operators to search for annotations on different layers that cover the same or parts of the same text.
 
+In the GUM corpus, we can search for declarative sentences, which include an abstract entity that is referred to with a personal pronoun.
+To do this, we need three key value pairs on different levels, that is, the sentence type s_type="decl", the entity annotation "abstract", and the Penn POS tag PRP.
+We will construct the query as follows:
+First, we declare the key value pairs, each on its own line
+s_type=‎"decl‎" & entity=‎"abstract‎" &
+penn_pos=‎"PRP‎" &
 
-## Practice materials
+Then, we define the relations between the key value pairs, such that
+the sentence shall include the entity, for which we use the inclusion operator.
+And we use the identical coverage operator to define that the entity and the pronoun must cover exactly the same tokens.
+
+#1 _i_ #2 &
+#2 _=_ #3
+
+To make things more fun, we add another constraint, namely that the declarative sentence should also include the phrase "language codes", with language either capitalized or not.
+To do this, we introduce two more key value pairs.
+This time, because we will search for actual word form occurrences, we don't have to specify a key, but can simply state the words we're looking for in double quotes.
+Additionally, we need to state that the sentence should include them, so we will use the inclusion operator again, for both words.
+Also, we need to specify that "codes" should directly follow "language", so we need to use the direct precedence operator.
+
+s_type=‎"decl‎" & entity=‎"abstract‎" &
+penn_pos=‎"PRP‎" &
+#1 _i_ #2 &
+#2 _=_ #3 &
+‎/language‎/ & 
+‎"codes‎" &
+#1 _i_ #4 &
+#1 _i_ #5 &
+#4 . #5
+
+If we leave out the direct precedence operator, we expect to yield the same result, and indeed we do, but another result, catching the second occurrence of "language" in the sentence, is also found.
+
+This example is arbitrary, but shows how search across different layers may work in ANNIS.
+
+With AQL, you can also search for other linguistic entities than just text tokens and spans.
+For example, we can search for syntax trees.
+
+If we wanted to find a tree in which a nominal phrase is directly dominated by a prepositional phrase, for example, you do this by searching for the two categories, and defining the relation to be found with the direct dominance operator.
+cat="PP" > cat="NP"
+
+This also works across layers, for example, to find prepositional phrases directly dominating an adverb, we can combine the cat annotation with a POS tag:
+cat="PP" > pos="RB".
+
+We can also search for more complex trees, for example, by searching for another prepositional phrase, which shall be dominated indirectly by the first one.
+To do this, we use the indirect dominance operator:
+
+cat=‎"PP‎" & 
+pos=‎"RB‎" &
+#1 > #2 &
+#1 >* cat=‎"PP‎"
+
+And to make sure we're always shown the complete tree, we include the root element as indirectly dominating the first prepositional phrase as well.
+
+cat=‎"PP‎" & 
+pos=‎"RB‎" &
+#1 > #2 &
+#1 >* cat=‎"PP‎" &
+cat=‎"ROOT‎" >* #1
+
+Note the mixture of the long and the short form of AQL to yield a readable query.
+
+ANNIS can also search for other types of relations than the dominance relations used in syntax trees, for example, pointing relations in coreference annotations.
+
+To search for an occurrence where a person is said to be coreferent with an antecedent non-person, we can search for a coreference relation between the two entities.
+The following query also introduces inequality assignment of values to keys.
+First, we define the two entities:
+
+entity=‎"person‎" &
+entity!=‎"person‎" &
+
+And then we link them with a relation of the coref type, denoting coreference relations.
+
+entity=‎"person‎" &
+entity!=‎"person‎" &
+#1 ->coref #2
+
+This yields some interesting examples of bridging, where for example an organization implies the existence of its parts.
+
+This concludes our introduction to the basic concepts in AQL.
+
+Feel free to go through the tutorial and the list of operators, and try them out on any of the available corpora.
 
 ## Contribute to ANNIS
 
 ### ANNIS on GitHub
 
+ANNIS is open source under the permissive Apache License Version 2.
+Feel free to have a look at the source code, and please contribute if you can.
+The source code is available on GitHub at https://github.com/korpling/annis.
+
 ### File bug reports and feaure requests
 
-### Contibute code
+A very helpful contribution would be to report any bugs you may find on GitHub. To do so, simply go to the source code page, and to the issue tracker there, and file a new issue, or suggest a new feature.
 
-# Outro
+If you use ANNIS in your work, please cite it XXX
 
 ### Thank you
 
-### Grants
+Thank you for your attention.
 
-## Credits
+We would like to acknowledge funding for ANNIS from XXX
 
+# Credits
