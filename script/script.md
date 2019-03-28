@@ -117,7 +117,8 @@ We have searched for a fixed string as the value in a key value pair.
 But actually, values can be regular expressions.
 To give you a simple example, you can search for all POS tags that start with a double V, that are followed by zero or more characters.
 In AQL, regular expressions are written between single slashes.
-GUM pos=/VV.*/
+
+`GUM pos=/VV.*/`
 
 We have mentioned earlier that AQL can also search for relations between key value pairs.
 Let's have a look at this now.
@@ -128,12 +129,16 @@ In this case, we are looking for the first operator in the list, the direct prec
 
 To construct our search query, we will therefore search for both key value pairs we are looking for, and connect them with the direct precedence operator.
 In AQL, key value pairs are linked up in a query with the ampersand.
-pos="NN" & pos=/VV.*/
+
+`pos="NN" & pos=/VV.*/`
+
 Just using this query, however, results in an error message, which tells us, that we need to use an operator.
 In order to do this, we can refer to our two key value pairs within the query - once they are defined - through their position in the query.
 This is done with a hash and a number.
 At the same time, we use the operator we have chosen, the direct precedence operator.
-pos="NN" & pos=/VV.*/ & #1 . #2
+
+`pos="NN" & pos=/VV.*/ & #1 . #2`
+
 The error message disappears, and we have now constructed a valid AQL query.
 
 Before we run this query, let's have a look at it again.
@@ -172,8 +177,10 @@ Then, we define the relations between the key value pairs, such that
 the sentence shall include the entity, for which we use the inclusion operator.
 And we use the identical coverage operator to define that the entity and the pronoun must cover exactly the same tokens.
 
+```
 #1 _i_ #2 &
 #2 _=_ #3
+```
 
 To make things more fun, we add another constraint, namely that the declarative sentence should also include the phrase "language codes", with language either capitalized or not.
 To do this, we introduce two more key value pairs.
@@ -181,6 +188,7 @@ This time, because we will search for actual word form occurrences, we don't hav
 Additionally, we need to state that the sentence should include them, so we will use the inclusion operator again, for both words.
 Also, we need to specify that "codes" should directly follow "language", so we need to use the direct precedence operator.
 
+```
 s_type=‎"decl‎" & entity=‎"abstract‎" &
 penn_pos=‎"PRP‎" &
 #1 _i_ #2 &
@@ -190,6 +198,7 @@ penn_pos=‎"PRP‎" &
 #1 _i_ #4 &
 #1 _i_ #5 &
 #4 . #5
+```
 
 If we leave out the direct precedence operator, we expect to yield the same result, and indeed we do, but another result, catching the second occurrence of "language" in the sentence, is also found.
 
@@ -207,18 +216,22 @@ cat="PP" > pos="RB".
 We can also search for more complex trees, for example, by searching for another prepositional phrase, which shall be dominated indirectly by the first one.
 To do this, we use the indirect dominance operator:
 
+```
 cat=‎"PP‎" & 
 pos=‎"RB‎" &
 #1 > #2 &
 #1 >* cat=‎"PP‎"
+```
 
 And to make sure we're always shown the complete tree, we include the root element as indirectly dominating the first prepositional phrase as well.
 
+```
 cat=‎"PP‎" & 
 pos=‎"RB‎" &
 #1 > #2 &
 #1 >* cat=‎"PP‎" &
 cat=‎"ROOT‎" >* #1
+```
 
 Note the mixture of the long and the short form of AQL to yield a readable query.
 
@@ -228,14 +241,18 @@ To search for an occurrence where a person is said to be coreferent with an ante
 The following query also introduces inequality assignment of values to keys.
 First, we define the two entities:
 
+```
 entity=‎"person‎" &
 entity!=‎"person‎" &
+```
 
 And then we link them with a relation of the coref type, denoting coreference relations.
 
+```
 entity=‎"person‎" &
 entity!=‎"person‎" &
 #1 ->coref #2
+```
 
 This yields some interesting examples of bridging, where for example an organization implies the existence of its parts.
 
@@ -247,8 +264,11 @@ To open the corpus, browse to https://hu.berlin/annis.
 Once ANNIS has loaded, filter the corpus list by typing d i a intro the filter field.
 This will select a single corpus, the dialogue demo corpus.
 It contains a document with two speakers, whose spoken phrases are annotated on the layers utterance0 and utterance1.
-To search for occurrences where utternaces from both speakers overlap, we can use the following query with the overlap operator
+To search for occurrences where utterances from both speakers overlap, we can use the following query with the overlap operator
+
+```
 utterance0 _o_ utterance1
+```
 
 As you can see, there are two instances of overlapping utterances in this corpus.
 In this case, the results are also linked with their original source file, a video file.
@@ -273,7 +293,7 @@ In our example, they would be
 3. word form
 4. lemma
 
-If you wanted to investigate the phenomenon of contracted word forms in Old German, you could use the reference corpus for Old High German available at https://www.deutschdiachrondigital.de/
+If you wanted to investigate the phenomenon of contracted word forms in Old German, you could use the reference corpus for Old High German available at https://www.deutschdiachrondigital.de/.
 Ideally, you will find documentation about annotation layers in the corpus documentation.
 Or you will know about available annotations because you are working with your own corpus.
 
@@ -284,23 +304,33 @@ The two should follow each other, so in our query, we will use the direct preced
 Let's do this.
 In ANNIS, we select all subcorpora in the reference corpus.
 Then, we type our query and run it.
+
+```
+pos=‎"APPR‎" &
+pos=‎/D.+‎/ &
+#1 . #2
+```
+
 This yields all occurrences of articles directly following a preposition.
 
 Now we need to refine our query to include only those that belong to one and the same word form.
 To do so, we add a variable catching all historical word forms with the key edition.
 At the same time, we are interested in the lemmas, and therefore also include two variables catching all lemmas.
 
+```
 pos=‎"APPR‎" &
 pos=‎/D.+‎/ &
 #1 . #2 &
 edition &
 lemma & 
 lemma
+```
 
 Again, we need to bind all of these variables together with the correct operators.
 We keep the direct precedence operator for the two POS tags.
 We then add operators to reflect that the historical word form should overlap both pos tags.
 
+```
 pos=‎"APPR‎" &
 pos=‎/D.+‎/ &
 #1 . #2 &
@@ -309,9 +339,11 @@ lemma &
 lemma &
 #3 _o_ #1 &
 #3 _o_ #2
+```
 
 And additionally, we want to catch those lemmas, that have the same coverage as the pos tags, for which we use the identical coverage operator
 
+```
 pos=‎"APPR‎" &
 pos=‎/D.+‎/ &
 #1 . #2 &
@@ -322,11 +354,11 @@ lemma &
 #3 _o_ #2 &
 #4 _=_ #1 &
 #5 _=_ #2
+```
 
 Running this query yields the results we were looking for.
 We can run a frequency analysis on these results to find out which contracted word form is the most frequently used one.
 The analysis shows, that the contraction of Old German "to" and an article to the word form "zen" is the most common one.
-
 
 This concludes our introduction to the basic concepts in AQL.
 Feel free to go through the tutorial and the list of operators, and try them out on any of the available corpora.
