@@ -17,7 +17,7 @@ corpus-tools.org also includes tools to convert between different corpus formats
 We are also working on a corpus annotation software that integrates seamlessly with ANNIS.
 If you want to know more about corpus-tools.org, please visit the website at corpus-tools.org.
 
-XXX BELOW XXX If you use ANNIS in your work, please cite it! We will provide the relevant reference later on in the video.
+If you use ANNIS in your work, please cite it! We will provide the relevant reference later on in the video.
 
 ANNIS is a search tool for linguistic corpora, which you can use to search in annotated corpora across all levels, or layers.
 
@@ -90,7 +90,7 @@ The tutorial also features details about how to search for specific linguistic p
 And finally, the tutorial contains a very helpful list of AQL operators.
 
 But now, let's get started with some actual queries in ANNIS.
-For this presentation, we will XXX primarily XXX use the Georgetown University Multilayer Corpus.
+For this presentation, we will primarily use the Georgetown University Multilayer Corpus.
 You can find more information about the corpus on its website at http://corpling.uis.georgetown.edu/gum/.
 
 ## Usage
@@ -109,7 +109,6 @@ From here, you can view the different available visualizations of each result, a
 You can also share the query from this view, or a single result in a specific visualization.
 
 This isn't a very interesting search, but it gives you an idea about how different visualizations may work.
-XXX video XXX
 
 To show you an example of a customized visualization, let's run a similar query on a Coptic corpus.
 pos="V" shenoute.fox - syntax dependencies + analytic view (custom HTML)
