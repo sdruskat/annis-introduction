@@ -240,12 +240,96 @@ entity!=‎"person‎" &
 
 This yields some interesting examples of bridging, where for example an organization implies the existence of its parts.
 
-This concludes our introduction to the basic concepts in AQL.
+One powerful feature of ANNIS is, that it can process corpora with multiple segmentations.
+This may be useful when working with historical corpora, for example, which may contain different tokenizations, such as diplomatic, cleaned and normalized token layers.
+Or when working with spoken language corpora with more than one speaker per document.
+To give you an example, let's look at another corpus on another instance of ANNIS, at Humboldt-Universität zu Berlin.
+To open the corpus, browse to https://hu.berlin/annis.
+Once ANNIS has loaded, filter the corpus list by typing d i a intro the filter field.
+This will select a single corpus, the dialogue demo corpus.
+It contains a document with two speakers, whose spoken phrases are annotated on the layers utterance0 and utterance1.
+To search for occurrences where utternaces from both speakers overlap, we can use the following query with the overlap operator
+utterance0 _o_ utterance1
+
+As you can see, there are two instances of overlapping utterances in this corpus.
+In this case, the results are also linked with their original source file, a video file.
+The video can be embedded in ANNIS, and if you click on the speaker symbol in any of the results, the video will play back the sequence that the result represents.
 
 # A short note on best practice
 
-XXX https://www.linguistik.hu-berlin.de/de/institut/professuren/korpuslinguistik/lehre/folien-material/hist-korpora-10-2016 S. 26ff.
+You have now learned the basics of using ANNIS.
+A possible next step would be to transfer what you have just learned to your own research question.
+We would like to suggest a few steps that you can take to create suitable queries for your own research question.
 
+1. Start off with formulating the research question as precisely as possible.
+
+For example: I would like to investigate contractions of preposition and article. Therefore, I would like to find forms that represent one word form which is connected to two lemmas.
+
+2. Once you have such a minimal precise question, continue with identifying the relevant variables.
+
+In our example, they would be 
+
+1. preposition
+2. article
+3. word form
+4. lemma
+
+If you wanted to investigate the phenomenon of contracted word forms in Old German, you could use the reference corpus for Old High German available at https://www.deutschdiachrondigital.de/
+Ideally, you will find documentation about annotation layers in the corpus documentation.
+Or you will know about available annotations because you are working with your own corpus.
+
+In our example, we can find out that there are annotation layers for parts-of-speech, namely pos; for lemmas, namely lemma, and for historical word forms, namely edition.
+We can use these layers and the respective tag sets to formulate a query.
+In our case we would like to find prepositions - represented by the APPR tag - and articles, represented by a number of tags starting with /D.+/.
+The two should follow each other, so in our query, we will use the direct precedence operator.
+Let's do this.
+In ANNIS, we select all subcorpora in the reference corpus.
+Then, we type our query and run it.
+This yields all occurrences of articles directly following a preposition.
+
+Now we need to refine our query to include only those that belong to one and the same word form.
+To do so, we add a variable catching all historical word forms with the key edition.
+At the same time, we are interested in the lemmas, and therefore also include two variables catching all lemmas.
+
+pos=‎"APPR‎" &
+pos=‎/D.+‎/ &
+#1 . #2 &
+edition &
+lemma & 
+lemma
+
+Again, we need to bind all of these variables together with the correct operators.
+We keep the direct precedence operator for the two POS tags.
+We then add operators to reflect that the historical word form should overlap both pos tags.
+
+pos=‎"APPR‎" &
+pos=‎/D.+‎/ &
+#1 . #2 &
+edition &
+lemma & 
+lemma &
+#3 _o_ #1 &
+#3 _o_ #2
+
+And additionally, we want to catch those lemmas, that have the same coverage as the pos tags, for which we use the identical coverage operator
+
+pos=‎"APPR‎" &
+pos=‎/D.+‎/ &
+#1 . #2 &
+edition &
+lemma & 
+lemma &
+#3 _o_ #1 &
+#3 _o_ #2 &
+#4 _=_ #1 &
+#5 _=_ #2
+
+Running this query yields the results we were looking for.
+We can run a frequency analysis on these results to find out which contracted word form is the most frequently used one.
+The analysis shows, that the contraction of Old German "to" and an article to the word form "zen" is the most common one.
+
+
+This concludes our introduction to the basic concepts in AQL.
 Feel free to go through the tutorial and the list of operators, and try them out on any of the available corpora.
 
 ## Contribute to ANNIS
@@ -258,14 +342,17 @@ The source code is available on GitHub at https://github.com/korpling/annis.
 
 ### File bug reports and feaure requests
 
-A very helpful contribution would be to report any bugs you may find on GitHub. To do so, simply go to the source code page, and to the issue tracker there, and file a new issue, or suggest a new feature.
+A very helpful contribution would be to report any bugs you may find in ANNIS, on GitHub. 
+To do so, simply go to the source code page, and to the issue tracker there, and file a new issue, or suggest a new feature.
 
-If you use ANNIS in your work, please cite it XXX
+If you use ANNIS in your work, please cite it using the reference that is listed at the end of the video.
 
 ### Thank you
 
 Thank you for your attention.
 
-We would like to acknowledge funding for ANNIS from XXX
+We would like to acknowledge funding and support for ANNIS from the
+Deutsche Forschungsgemeinschaft and the Collaborative Research Centre 632, as well
+as Humboldt-Universität zu Berlin and Georgetown University.
 
 # Credits
