@@ -13,9 +13,9 @@ It is an open source software that runs in web browsers, and can be installed ei
 In this tutorial we will use an instance of ANNIS that is run on a server at Georgetown University.
 
 ANNIS is part of the corpus-tools.org software family.
-corpus-tools.org also includes tools to convert between different corpus formats.
+corpus-tools.org also includes tools to convert between different corpus formats, and a metamodel and API for linguistic data.
 We are also working on a corpus annotation software that integrates seamlessly with ANNIS.
-If you want to know more about corpus-tools.org, please visit the website at corpus-tools.org.
+If you want to know more about corpus-tools.org, please visit this website at corpus-tools.org.
 
 If you use ANNIS in your work, please cite it! We will provide the relevant reference later on in the video.
 
@@ -49,7 +49,7 @@ So how can you actually use ANNIS?
 
 We will start with a tour of the user interface of ANNIS.
 If you don't have access to a specific ANNIS installation that you want to use, you can browse to the ANNIS installation at Georgetown University.
-To do so, open your web browser, and type the following URL in the address bar: https://tinyurl.com/georgetown-annis.
+To do so, open your web browser, and type the following URL in the address bar: https://tinyurl.com/georgetown-annis / http://corpling.uis.georgetown.edu/annis/#_c=R1VN.
 
 This will open the ANNIS user interface in your browser.
 
