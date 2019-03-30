@@ -87,7 +87,7 @@ It also displays a list of example queries for each corpus, which you can try ou
 And finally, the user documentation for ANNIS can be displayed in ANNIS itself, so if you want to re-visit any of the topics you have learned about in this video, or want to investigate further functionality, such as the advanced features of the ANNIS Query Language, the tutorial is a good place to start.
 It includes further details about the ANNIS user interface, for example.
 The tutorial also features details about how to search for specific linguistic phenomena.
-And finally, the tutorial contains a very helpful list of AQL operators.
+And finally, it contains a very helpful list of AQL operators.
 
 But now, let's get started with some actual queries in ANNIS.
 For this presentation, we will primarily use the Georgetown University Multilayer Corpus.
@@ -119,6 +119,8 @@ To give you a simple example, you can search for all POS tags that start with a 
 In AQL, regular expressions are written between single slashes.
 
 `GUM pos=/VV.*/`
+
+This yields results containing different POS tags starting with double V.
 
 We have mentioned earlier that AQL can also search for relations between key value pairs.
 Let's have a look at this now.
@@ -152,6 +154,8 @@ And the query still runs.
 Additionally, for shorter queries such as this, we can use a short form of AQL by simply replacing the ampersand that connects the two key value pairs with the operator itself.
 This way, we don't have to type out the third line in the query which connects the two.
 
+We now run the query, and can see that the different key value pairs are highlighted in the results with the same colours as in the query.
+
 Once we have run our query, we can get a frequency analysis of our query.
 In our simple example, this can help us find out the distribution of the different verbal parts-of-speech that are directly preceded by a Common Noun.
 To do this, we simply click on the Frequency Analysis button that is available from the drop-down menu reading "More".
@@ -178,8 +182,8 @@ the sentence shall include the entity, for which we use the inclusion operator.
 And we use the identical coverage operator to define that the entity and the pronoun must cover exactly the same tokens.
 
 ```
-#1 _i_ #2 &
-#2 _=_ #3
+	#1 _i_ #2 &
+	#2 _=_ #3
 ```
 
 To make things more fun, we add another constraint, namely that the declarative sentence should also include the phrase "language codes", with language either capitalized or not.
@@ -282,14 +286,14 @@ We would like to suggest a few steps that you can take to create suitable querie
 
 1. Start off with formulating the research question as precisely as possible.
 
-For example: I would like to investigate contractions of preposition and article. Therefore, I would like to find forms that represent one word form which is connected to two lemmas.
+For example: I would like to investigate contractions of preposition and determiner. Therefore, I would like to find forms that represent one word form which is connected to two lemmas.
 
 2. Once you have such a minimal precise question, continue with identifying the relevant variables.
 
 In our example, they would be 
 
 1. preposition
-2. article
+2. determiner
 3. word form
 4. lemma
 
@@ -299,7 +303,7 @@ Or you will know about available annotations because you are working with your o
 
 In our example, we can find out that there are annotation layers for parts-of-speech, namely pos; for lemmas, namely lemma, and for historical word forms, namely edition.
 We can use these layers and the respective tag sets to formulate a query.
-In our case we would like to find prepositions - represented by the APPR tag - and articles, represented by a number of tags starting with /D.+/.
+In our case we would like to find prepositions - represented by the APPR tag - and determiner, represented by a number of tags starting with /D.+/.
 The two should follow each other, so in our query, we will use the direct precedence operator.
 Let's do this.
 In ANNIS, we select all subcorpora in the reference corpus.
@@ -358,7 +362,7 @@ lemma &
 
 Running this query yields the results we were looking for.
 We can run a frequency analysis on these results to find out which contracted word form is the most frequently used one.
-The analysis shows, that the contraction of Old German "to" and an article to the word form "zen" is the most common one.
+The analysis shows, that the contraction of Old German "to" and a determiner to the word form "zen" is the most common one.
 
 This concludes our introduction to the basic concepts in AQL.
 Feel free to go through the tutorial and the list of operators, and try them out on any of the available corpora.
